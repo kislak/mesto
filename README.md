@@ -15,3 +15,9 @@
 Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
 
 Удачи!
+
+## tips and links
+
+### fonts
+https://rsms.me/inter/
+https://fonts.google.com/specimen/Inter
