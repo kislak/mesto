@@ -20,4 +20,5 @@
 
 ### fonts
 https://rsms.me/inter/
+
 https://fonts.google.com/specimen/Inter
