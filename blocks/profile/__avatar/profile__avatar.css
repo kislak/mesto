@@ -1,3 +1,7 @@
 .profile__avatar {
-
+  max-width: 169px;
+  max-height: 128px;
+  margin-right: 20px;
+  border-radius: 50%;
+  grid-area: avatar;
 }

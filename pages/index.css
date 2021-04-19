@@ -18,12 +18,13 @@
 @import url("../blocks/profile/__edit-button/profile__edit-button.css");
 @import url("../blocks/profile/__add-button/profile__add-button.css");
 
-@import url("../blocks/elements/elements.css.css");
+@import url("../blocks/elements/elements.css");
+
 
 
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__copyright/footer__copyright.css");
 
-a, p, div, section, main, footer, header, ul, li {
+a, p, div, section, main, footer, header, ul, li, button, h1, h2 {
   border: red 1px solid;
 }

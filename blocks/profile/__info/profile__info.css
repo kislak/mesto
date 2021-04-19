@@ -1,3 +1,10 @@
 .profile__info {
-
+  display: grid;
+  grid-template-columns: min-content minmax(min-content, max-content);
+  grid-template-rows:  min-content minmax(min-content, max-content);
+  grid-gap: 0px;
+  grid-template-areas:
+      "avatar name edit"
+      "avatar title title";
+  align-items: center;
 }
