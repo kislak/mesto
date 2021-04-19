@@ -17,3 +17,14 @@
 .popup__submit:hover {
   opacity: 0.8;
 }
+
+@media (max-width: 588px) {
+  .popup__submit {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+

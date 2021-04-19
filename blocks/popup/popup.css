@@ -10,3 +10,9 @@
   right: 0px;
   background-color: rgba(0, 0, 0, .5);
 }
+
+@media (max-width: 588px) {
+  .profile__name-text {
+    max-width: 260px;
+  }
+}

@@ -6,9 +6,4 @@
   max-width: 360px;
 }
 
-@media (max-width: 588px) {
-  .profile__name-text {
-    max-width: 260px;
-  }
-}
 

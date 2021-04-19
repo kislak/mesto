@@ -1,4 +1,5 @@
 .popup__container {
+  position: relative;
   background-color: white;
   color: black;
   width: 430px;
@@ -11,4 +12,12 @@
   align-items: stretch;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
+}
+
+
+@media (max-width: 588px) {
+  .popup__container {
+    padding: 0 22px 0;
+    width: 282px;
+  }
 }
