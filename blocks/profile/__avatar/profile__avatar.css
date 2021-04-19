@@ -4,5 +4,10 @@
   margin-right: 20px;
   border-radius: 50%;
   grid-area: avatar;
-  margin: 0px auto;
+}
+
+@media (max-width: 588px) {
+  .profile__avatar {
+    margin: 0 auto;
+  }
 }

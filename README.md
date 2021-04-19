@@ -22,3 +22,5 @@
 https://rsms.me/inter/
 
 https://fonts.google.com/specimen/Inter
+
+font-family: "Comic Sans MS", "Comic Sans", cursive;

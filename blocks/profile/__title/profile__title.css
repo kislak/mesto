@@ -7,3 +7,10 @@
   line-height: 22px;
   align-self: flex-start;
 }
+
+
+@media (max-width: 588px) {
+  .profile__title {
+    margin-top: 14px;
+  }
+}
