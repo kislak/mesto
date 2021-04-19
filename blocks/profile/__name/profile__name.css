@@ -5,6 +5,9 @@
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 588px) {
