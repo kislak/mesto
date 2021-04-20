@@ -8,7 +8,7 @@
   gap: 17px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 880px) {
   .elements__list {
     max-width: 588px;
     grid-template-columns: repeat(2, 1fr);

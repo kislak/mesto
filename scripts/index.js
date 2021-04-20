@@ -2,33 +2,30 @@ let editButton = document.querySelector('.profile__edit-button');
 let popup = document.querySelector('.popup');
 let formElement = document.querySelector('.popup__container');
 
-editButton.addEventListener('click', function () {
-  let name = document.querySelector('.profile__name-text');
-  let title = document.querySelector('.profile__title');
-  let nameInput = formElement.querySelector('[name="name"]');
-  let titleInput =  formElement.querySelector('[name="title"]');
+let nameInput = formElement.querySelector('.popup__field_name');
+let titleInput =  formElement.querySelector('.popup__field_title');
+let name = document.querySelector('.profile__name-text');
+let title = document.querySelector('.profile__title');
 
-  nameInput.value = name.textContent;
-  titleInput.value = title.textContent;
-  popup.classList.toggle('popup_opened')
-})
+let closeButton = document.querySelector('.popup__close');
 
-function formSubmitHandler (evt) {
+function openForm(evt) {
     evt.preventDefault();
-    let nameInput = formElement.querySelector('[name="name"]');
-    let titleInput =  formElement.querySelector('[name="title"]');
-    let name = document.querySelector('.profile__name-text');
-    let title = document.querySelector('.profile__title');
+    nameInput.value = name.textContent;
+    titleInput.value = title.textContent;
+    popup.classList.add('popup_opened')
+}
+editButton.addEventListener('click', openForm)
 
+function submitForm (evt) {
+    evt.preventDefault();
     name.textContent = nameInput.value;
     title.textContent = titleInput.value;
-    popup.classList.toggle('popup_opened')
+    closeForm();
 }
-formElement.addEventListener('submit', formSubmitHandler);
+formElement.addEventListener('submit', submitForm);
 
-function closeHandler (evt) {
-    evt.preventDefault();
-    popup.classList.toggle('popup_opened')
+function closeForm() {
+    popup.classList.remove('popup_opened')
 }
-let closeButton = document.querySelector('.popup__close');
-closeButton.addEventListener('click', closeHandler);
+closeButton.addEventListener('click', closeForm);

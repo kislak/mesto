@@ -1,12 +1,10 @@
 .popup__submit {
-  font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-
-  margin-top: 48px;
+  margin: 48px 0 37px;
   min-height: 50px;
   background: black;
   color: white;
@@ -20,11 +18,9 @@
 
 @media (max-width: 588px) {
   .popup__submit {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: normal;
     font-size: 14px;
     line-height: 17px;
+    margin: 45px 0 25px;
   }
 }
 
