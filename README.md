@@ -18,20 +18,23 @@
 ## [ссылкa на GitHub Pages](https://kislak.github.io/mesto/)
 
 
-## tips and links
+### tips and links
 
-### fonts
+####fonts
+
 https://rsms.me/inter/
 
 https://fonts.google.com/specimen/Inter
 
 font-family: "Comic Sans MS", "Comic Sans", cursive;
 
-### pictures
+
+####pictures
+
 https://unsplash.com/
 
 
-### font list
+#### font list
 
 https://www.cssfontstack.com/
 
@@ -42,3 +45,8 @@ https://www.cssfontstack.com/
 
 Для реализации адаптивной сетки в секции с карточками места можно использовать ключевые слова auto-fit и minmax:
 https://medium.com/@stasonmars/%D0%BA%D0%B0%D0%BA-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%8E%D1%82-auto-fill-%D0%B8-auto-fit-%D0%B2-css-grid-7d903a6c678e
+
+
+####cursor
+
+https://jsfiddle.net/bx4og7n5/
