@@ -59,7 +59,14 @@ const initialCards = [
 
 let elementTemplate = document.querySelector('#element-template').content;
 let elementsList = document.querySelector('.elements__list');
+let picturePopup = document.querySelector('.popup_type_image')
+let closePictureButton = picturePopup.querySelector('.popup__close');
 
+const closePicture = () => {
+    picturePopup.classList.remove('popup_opened');
+}
+
+closePictureButton.addEventListener('click', closePicture);
 
 const addElement = (name, link) => {
     let placeElement = elementTemplate.querySelector('.element').cloneNode(true);
@@ -74,13 +81,20 @@ const addElement = (name, link) => {
         let placeElement = evt.target.closest('.element');
         placeElement.parentNode.removeChild(placeElement);
     });
+
+    placeElement.querySelector('.element__picture').addEventListener('click', function (evt) {
+        picturePopup.querySelector('.popup__image').src = link
+        picturePopup.querySelector('.popup__image').alt = name;
+        picturePopup.querySelector('.popup__image-name').textContent = name;
+        picturePopup.classList.add('popup_opened');
+    });
+
     elementsList.prepend(placeElement);
 }
 
-initialCards.forEach((item) => {
+initialCards.reverse().forEach((item) => {
     addElement(item.name, item.link);
 })
-
 
 let addPlaceButton = document.querySelector('.profile__add-button');
 let addPlacePopup = document.querySelector('.popup_type_add-place');

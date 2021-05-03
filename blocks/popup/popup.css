@@ -1,5 +1,11 @@
 .popup {
-  display: none;
+  /*display: none;*/
+  display: flex;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0ms 1000ms, opacity 1000ms 0ms;
+
   align-items: center;
   justify-content: center;
   
