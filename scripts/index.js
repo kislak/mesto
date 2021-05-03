@@ -1,34 +1,33 @@
-let editButton = document.querySelector('.profile__edit-button');
-let popup = document.querySelector('.popup');
-let formElement = document.querySelector('.popup__container');
+let editProfileButton = document.querySelector('.profile__edit-button');
+let editProfilePopup = document.querySelector('.popup_type_edit-profile');
+let editProfileForm = editProfilePopup.querySelector('.popup__container');
 
-let nameInput = formElement.querySelector('.popup__field_name_name');
-let titleInput =  formElement.querySelector('.popup__field_name_title');
+let nameInput = editProfileForm.querySelector('.popup__field_name_name');
+let titleInput =  editProfileForm.querySelector('.popup__field_name_title');
 let name = document.querySelector('.profile__name-text');
 let title = document.querySelector('.profile__title');
+let closeProfileButton = editProfilePopup.querySelector('.popup__close');
 
-let closeButton = document.querySelector('.popup__close');
-
-const openForm = () => {
+const openProfileForm = () => {
     nameInput.value = name.textContent;
     titleInput.value = title.textContent;
-    popup.classList.add('popup_opened');
+    editProfilePopup.classList.add('popup_opened');
 }
 
-const closeForm = () => {
-    popup.classList.remove('popup_opened');
+const closeProfileForm = () => {
+    editProfilePopup.classList.remove('popup_opened');
 }
 
-const submitForm = (evt) => {
+const submitProfileForm = (evt) => {
     evt.preventDefault();
     name.textContent = nameInput.value;
     title.textContent = titleInput.value;
-    closeForm();
+    closeProfileForm();
 }
 
-formElement.addEventListener('submit', submitForm);
-editButton.addEventListener('click', openForm);
-closeButton.addEventListener('click', closeForm);
+editProfileButton.addEventListener('click', openProfileForm);
+closeProfileButton.addEventListener('click', closeProfileForm);
+editProfileForm.addEventListener('submit', submitProfileForm);
 
 const initialCards = [
     {
@@ -58,15 +57,55 @@ const initialCards = [
 ];
 
 
-const elementTemplate = document.querySelector('#element-template').content;
-const elementsList = document.querySelector('.elements__list');
+let elementTemplate = document.querySelector('#element-template').content;
+let elementsList = document.querySelector('.elements__list');
+
+
+const addElement = (name, link) => {
+    let placeElement = elementTemplate.querySelector('.element').cloneNode(true);
+
+    placeElement.querySelector('.element__picture').src = link;
+    placeElement.querySelector('.element__picture').alt = name;
+    placeElement.querySelector('.element__title').textContent = name;
+    placeElement.querySelector('.element__heart').addEventListener('click', function (evt) {
+        evt.target.classList.toggle('element__heart_active')
+    });
+    placeElement.querySelector('.element__delete-button').addEventListener('click', function (evt) {
+        let placeElement = evt.target.closest('.element');
+        placeElement.parentNode.removeChild(placeElement);
+    });
+    elementsList.prepend(placeElement);
+}
 
 initialCards.forEach((item) => {
-    const userElement = elementTemplate.querySelector('.element').cloneNode(true);
-    userElement.querySelector('.element__picture').src = item.link;
-    userElement.querySelector('.element__picture').alt = item.name;
-    userElement.querySelector('.element__title').textContent = item.name;
-    elementsList.append(userElement);
+    addElement(item.name, item.link);
 })
 
 
+let addPlaceButton = document.querySelector('.profile__add-button');
+let addPlacePopup = document.querySelector('.popup_type_add-place');
+let addPlaceForm = addPlacePopup.querySelector('.popup__container');
+
+let placeNameInput = addPlaceForm.querySelector('.popup__field_name_name');
+let placeLinkInput =  addPlaceForm.querySelector('.popup__field_name_link');
+let closeAddPlaceButton = addPlacePopup.querySelector('.popup__close');
+
+const openAddPlaceForm = () => {
+    placeNameInput.value = "";
+    placeLinkInput.value = "";
+    addPlacePopup.classList.add('popup_opened');
+}
+
+const closeAddPlaceForm = () => {
+    addPlacePopup.classList.remove('popup_opened');
+}
+
+const submitPlaceForm = (evt) => {
+    evt.preventDefault();
+    addElement(placeNameInput.value, placeLinkInput.value);
+    closeAddPlaceForm();
+}
+
+addPlaceButton.addEventListener('click', openAddPlaceForm);
+closeAddPlaceButton.addEventListener('click', closeAddPlaceForm);
+addPlaceForm.addEventListener('submit', submitPlaceForm);
