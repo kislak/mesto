@@ -1,34 +1,3 @@
-let editProfileButton = document.querySelector('.profile__edit-button');
-let editProfilePopup = document.querySelector('.popup_type_edit-profile');
-let editProfileForm = editProfilePopup.querySelector('.popup__container');
-
-let nameInput = editProfileForm.querySelector('.popup__field_name_name');
-let titleInput =  editProfileForm.querySelector('.popup__field_name_title');
-let name = document.querySelector('.profile__name-text');
-let title = document.querySelector('.profile__title');
-let closeProfileButton = editProfilePopup.querySelector('.popup__close');
-
-const openProfileForm = () => {
-    nameInput.value = name.textContent;
-    titleInput.value = title.textContent;
-    editProfilePopup.classList.add('popup_opened');
-}
-
-const closeProfileForm = () => {
-    editProfilePopup.classList.remove('popup_opened');
-}
-
-const submitProfileForm = (evt) => {
-    evt.preventDefault();
-    name.textContent = nameInput.value;
-    title.textContent = titleInput.value;
-    closeProfileForm();
-}
-
-editProfileButton.addEventListener('click', openProfileForm);
-closeProfileButton.addEventListener('click', closeProfileForm);
-editProfileForm.addEventListener('submit', submitProfileForm);
-
 const initialCards = [
     {
         name: 'Архыз',
@@ -55,6 +24,36 @@ const initialCards = [
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
+
+let editProfileButton = document.querySelector('.profile__edit-button');
+let editProfilePopup = document.querySelector('.popup_type_edit-profile');
+let editProfileForm = editProfilePopup.querySelector('.popup__container');
+let nameInput = editProfileForm.querySelector('.popup__field_name_name');
+let titleInput =  editProfileForm.querySelector('.popup__field_name_title');
+let name = document.querySelector('.profile__name-text');
+let title = document.querySelector('.profile__title');
+let closeProfileButton = editProfilePopup.querySelector('.popup__close');
+
+const openProfileForm = () => {
+    nameInput.value = name.textContent;
+    titleInput.value = title.textContent;
+    editProfilePopup.classList.add('popup_opened');
+}
+
+const closeProfileForm = () => {
+    editProfilePopup.classList.remove('popup_opened');
+}
+
+const submitProfileForm = (evt) => {
+    evt.preventDefault();
+    name.textContent = nameInput.value;
+    title.textContent = titleInput.value;
+    closeProfileForm();
+}
+
+editProfileButton.addEventListener('click', openProfileForm);
+closeProfileButton.addEventListener('click', closeProfileForm);
+editProfileForm.addEventListener('submit', submitProfileForm);
 
 
 let elementTemplate = document.querySelector('#element-template').content;
@@ -99,7 +98,6 @@ initialCards.reverse().forEach((item) => {
 let addPlaceButton = document.querySelector('.profile__add-button');
 let addPlacePopup = document.querySelector('.popup_type_add-place');
 let addPlaceForm = addPlacePopup.querySelector('.popup__container');
-
 let placeNameInput = addPlaceForm.querySelector('.popup__field_name_name');
 let placeLinkInput =  addPlaceForm.querySelector('.popup__field_name_link');
 let closeAddPlaceButton = addPlacePopup.querySelector('.popup__close');
