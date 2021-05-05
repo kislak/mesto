@@ -1,47 +1,40 @@
 const editProfileButton = document.querySelector('.profile__edit-button');
-const editProfilePopup = document.querySelector('.popup_type_edit-profile');
-const editProfileForm = editProfilePopup.querySelector('.popup__container');
-const nameInput = editProfileForm.querySelector('.popup__field_name_name');
-const titleInput =  editProfileForm.querySelector('.popup__field_name_title');
-const name = document.querySelector('.profile__name-text');
-const title = document.querySelector('.profile__title');
-const closeProfileButton = editProfilePopup.querySelector('.popup__close');
+const profilePopup = document.querySelector('.popup_type_edit-profile');
+const profileForm = profilePopup.querySelector('.popup__container');
+const profileNameField = profileForm.querySelector('.popup__field_name_name');
+const profileTitleField =  profileForm.querySelector('.popup__field_name_title');
+const profileName = document.querySelector('.profile__name-text');
+const profileTitle = document.querySelector('.profile__title');
+const closeProfilePopupButton = profilePopup.querySelector('.popup__close');
 
-const openProfileForm = () => {
-    nameInput.value = name.textContent;
-    titleInput.value = title.textContent;
-    editProfilePopup.classList.add('popup_opened');
+const openPopup = (popup) => popup.classList.add('popup_opened') ;
+const closePopup = (popup) => popup.classList.remove('popup_opened');
+
+const openProfilePopup = () => {
+    profileNameField.value = profileName.textContent;
+    profileTitleField.value = profileTitle.textContent;
+    openPopup(profilePopup);
 }
 
-const closeProfileForm = () => {
-    editProfilePopup.classList.remove('popup_opened');
-}
-
-const submitProfileForm = (evt) => {
+const submitProfile = (evt) => {
     evt.preventDefault();
-    name.textContent = nameInput.value;
-    title.textContent = titleInput.value;
-    closeProfileForm();
+    profileName.textContent = profileNameField.value;
+    profileTitle.textContent = profileTitleField.value;
+    closePopup(profilePopup);
 }
 
-editProfileButton.addEventListener('click', openProfileForm);
-closeProfileButton.addEventListener('click', closeProfileForm);
-editProfileForm.addEventListener('submit', submitProfileForm);
-
+editProfileButton.addEventListener('click', openProfilePopup);
+closeProfilePopupButton.addEventListener('click', () =>  { closePopup(profilePopup) });
+profileForm.addEventListener('submit', submitProfile);
 
 const elementTemplate = document.querySelector('#element-template').content;
 const elementsList = document.querySelector('.elements__list');
 const picturePopup = document.querySelector('.popup_type_image')
 const picturePopupImage = picturePopup.querySelector('.popup__image')
 const picturePopupImageName = picturePopup.querySelector('.popup__image-name')
+const closePicturePopupButton = picturePopup.querySelector('.popup__close');
 
-const closePictureButton = picturePopup.querySelector('.popup__close');
-
-const closePicture = () => {
-    picturePopup.classList.remove('popup_opened');
-}
-
-closePictureButton.addEventListener('click', closePicture);
+closePicturePopupButton.addEventListener('click', () => closePopup(picturePopup));
 
 const createCard = (name, link) => {
     const card = elementTemplate.querySelector('.element').cloneNode(true);
@@ -66,16 +59,13 @@ const createCard = (name, link) => {
     });
 
     deleteButton.addEventListener('click', function (evt) {
-        const card = evt.target.closest('.element');
-        card.parentNode.removeChild(placeElement);
+        evt.target.closest('.element').remove();
     });
 
     return card
 }
 
-const addCard = (card) => {
-    elementsList.prepend(card);
-}
+const addCard = (card) => elementsList.prepend(card);
 
 initialCards.reverse().forEach((item) => {
     const card = createCard(item.name, item.link);
@@ -83,29 +73,25 @@ initialCards.reverse().forEach((item) => {
 })
 
 const addPlaceButton = document.querySelector('.profile__add-button');
-const addPlacePopup = document.querySelector('.popup_type_add-place');
-const addPlaceForm = addPlacePopup.querySelector('.popup__container');
-const placeNameInput = addPlaceForm.querySelector('.popup__field_name_name');
-const placeLinkInput =  addPlaceForm.querySelector('.popup__field_name_link');
-const closeAddPlaceButton = addPlacePopup.querySelector('.popup__close');
+const placePopup = document.querySelector('.popup_type_add-place');
+const placeForm = placePopup.querySelector('.popup__container');
+const placeNameInput = placeForm.querySelector('.popup__field_name_name');
+const placeLinkInput =  placeForm.querySelector('.popup__field_name_link');
 
-const openAddPlaceForm = () => {
+const openPlaceForm = () => {
     placeNameInput.value = "";
     placeLinkInput.value = "";
-    addPlacePopup.classList.add('popup_opened');
+    openPopup(placePopup)
 }
-
-const closeAddPlaceForm = () => {
-    addPlacePopup.classList.remove('popup_opened');
-}
+addPlaceButton.addEventListener('click', openPlaceForm);
 
 const submitPlaceForm = (evt) => {
     evt.preventDefault();
     const card = createCard(placeNameInput.value, placeLinkInput.value);
     addCard(card);
-    closeAddPlaceForm();
+    closePopup(placePopup)
 }
+placeForm.addEventListener('submit', submitPlaceForm);
 
-addPlaceButton.addEventListener('click', openAddPlaceForm);
-closeAddPlaceButton.addEventListener('click', closeAddPlaceForm);
-addPlaceForm.addEventListener('submit', submitPlaceForm);
+const closePlacePopupButton = placePopup.querySelector('.popup__close');
+closePlacePopupButton.addEventListener('click', () => closePopup(placePopup));
