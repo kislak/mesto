@@ -10,12 +10,21 @@
   color: white;
   border-radius: 2px;
   border: 0;
+  box-sizing: border-box;
 }
 
 .popup__submit:hover {
   opacity: 0.8;
   cursor: url("../../../images/cursor-hover.svg") 12 0, pointer;
 }
+
+.popup__submit:disabled {
+  background-color: #E5E5E5;
+  color: #000000;
+  opacity: 0.2;
+  border: 1px solid #000000;
+}
+
 
 @media (max-width: 588px) {
   .popup__submit {

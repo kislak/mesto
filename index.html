@@ -48,21 +48,29 @@
         <form class="popup__form" name="editProfile">
           <h2 class="popup__title">Редактировать профиль</h2>
           <input
+                 id="popup__input-profile-name"
                  class="popup__field popup__field_name_name"
                  type="text"
                  name="name"
                  value="Жак-Ив Кусто"
                  placeholder="имя"
+                 minlength="2"
+                 maxlength="40"
                  required
           >
+          <span class="popup__input-error popup__input-profile-name-error"></span>
           <input
+                 id="popup__input-profile-title"
                  class="popup__field popup__field_name_title"
                  type="text"
                  name="title"
                  value="Исследователь океана"
                  placeholder="звание"
+                 minlength="2"
+                 maxlength="200"
                  required
           >
+          <span class="popup__input-error popup__input-profile-title-error"></span>
           <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
@@ -74,21 +82,27 @@
         <form class="popup__form" name="addPlace">
           <h2 class="popup__title">Новое место</h2>
           <input
+              id="popup__input-place-name"
               class="popup__field popup__field_name_name"
               type="text"
               name="name"
               value=""
               placeholder="Название"
+              minlength="2"
+              maxlength="30"
               required
           >
+          <span class="popup__input-error popup__input-place-name-error"></span>
           <input
+              id="popup__input-place-link"
               class="popup__field popup__field_name_link"
-              type="text"
+              type="url"
               name="link"
               value=""
               placeholder="Ссылка на картинку"
               required
           >
+          <span class="popup__input-error popup__input-place-link-error"></span>
           <button class="popup__submit" type="submit">Создать</button>
         </form>
       </div>
@@ -101,6 +115,7 @@
         <h2 class="popup__image-name">Байкал</h2>
       </div>
     </div>
+    <script src="scripts/validate.js"></script>
     <script src="scripts/initial-cards.js"></script>
     <script src="scripts/index.js"></script>
   </body>

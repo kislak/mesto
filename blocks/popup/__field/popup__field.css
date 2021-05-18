@@ -8,3 +8,8 @@
   padding: 0 0 13px 0;
   box-sizing: border-box;
 }
+
+
+.popup__field:invalid {
+  border-bottom: 1px solid #FF0000;
+}
