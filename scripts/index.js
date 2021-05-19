@@ -21,8 +21,22 @@ const placeNameInput = placeForm.querySelector('.popup__field_name_name');
 const placeLinkInput =  placeForm.querySelector('.popup__field_name_link');
 const closePlacePopupButton = placePopup.querySelector('.popup__close');
 
-const openPopup = (popup) => popup.classList.add('popup_opened') ;
-const closePopup = (popup) => popup.classList.remove('popup_opened');
+const openPopup = (popup) => {
+    popup.classList.add('popup_opened') ;
+
+    const escapeHandler = (evt) => {
+        if (evt.key == 'Escape' ) {
+            closePopup(popup);
+            window.removeEventListener('keyup', escapeHandler)
+        }
+    };
+
+    window.addEventListener('keyup', escapeHandler);
+}
+
+const closePopup = (popup) => {
+    popup.classList.remove('popup_opened');
+}
 
 const openProfilePopup = () => {
     profileNameField.value = profileName.textContent;
@@ -91,3 +105,9 @@ closePicturePopupButton.addEventListener('click', () => closePopup(picturePopup)
 addPlaceButton.addEventListener('click', openPlaceForm);
 placeForm.addEventListener('submit', submitPlaceForm);
 closePlacePopupButton.addEventListener('click', () => closePopup(placePopup));
+
+popups = Array.from(document.querySelectorAll('.popup'))
+popups.forEach((popup) => {
+    popup.addEventListener('click',() => closePopup(popup));
+    popup.querySelector('.popup__container').addEventListener('click', (evt) => evt.stopPropagation());
+});
