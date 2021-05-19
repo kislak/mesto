@@ -10,7 +10,7 @@
 
 .element__heart:hover {
   opacity: 0.5;
-  cursor: url("../../../images/cursor-hover.svg") 12 0, pointer;
+  cursor: pointer;
 }
 
 .element__heart:active {

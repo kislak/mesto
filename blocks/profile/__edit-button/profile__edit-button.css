@@ -11,7 +11,7 @@
 
 .profile__edit-button:hover {
   opacity: 0.6;
-  cursor: url("../../../images/cursor-hover.svg") 12 0, pointer;
+  cursor: pointer;
 }
 
 

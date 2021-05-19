@@ -20,21 +20,25 @@ const placeForm = placePopup.querySelector('.popup__container');
 const placeNameInput = placeForm.querySelector('.popup__field_name_name');
 const placeLinkInput =  placeForm.querySelector('.popup__field_name_link');
 const closePlacePopupButton = placePopup.querySelector('.popup__close');
+const submitPlacePopupButton = placePopup.querySelector('.popup__submit');
+
+const Escape = 'Escape'
+
+const escapeHandler = (evt) => {
+    if (evt.key == Escape) {
+        closePopup(escapeHandler.popup);
+    }
+};
 
 const openPopup = (popup) => {
+    escapeHandler.popup = popup
+    addEventListener('keyup', escapeHandler);
+    submitPlacePopupButton.disabled = true;
     popup.classList.add('popup_opened') ;
-
-    const escapeHandler = (evt) => {
-        if (evt.key == 'Escape' ) {
-            closePopup(popup);
-            window.removeEventListener('keyup', escapeHandler)
-        }
-    };
-
-    window.addEventListener('keyup', escapeHandler);
 }
 
 const closePopup = (popup) => {
+    removeEventListener('keyup', escapeHandler)
     popup.classList.remove('popup_opened');
 }
 
@@ -76,7 +80,7 @@ const createCard = (name, link) => {
         picturePopupImage.src = link;
         picturePopupImage.alt = name;
         picturePopupImageName.textContent = name;
-        picturePopup.classList.add('popup_opened');
+        openPopup(picturePopup);
     };
 
     const heartClickHandler = (evt) => evt.target.classList.toggle('element__heart_active');
