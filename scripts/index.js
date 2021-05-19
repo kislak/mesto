@@ -91,12 +91,3 @@ closePicturePopupButton.addEventListener('click', () => closePopup(picturePopup)
 addPlaceButton.addEventListener('click', openPlaceForm);
 placeForm.addEventListener('submit', submitPlaceForm);
 closePlacePopupButton.addEventListener('click', () => closePopup(placePopup));
-
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-});
