@@ -33,7 +33,6 @@ const escapeHandler = (evt) => {
 const openPopup = (popup) => {
     escapeHandler.popup = popup
     addEventListener('keyup', escapeHandler);
-    submitPlacePopupButton.disabled = true;
     popup.classList.add('popup_opened') ;
 }
 
@@ -58,6 +57,7 @@ const submitProfile = (evt) => {
 const openPlaceForm = () => {
     placeNameInput.value = "";
     placeLinkInput.value = "";
+    submitPlacePopupButton.disabled = true;
     openPopup(placePopup)
 }
 
