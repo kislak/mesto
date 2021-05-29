@@ -12,8 +12,8 @@ export default class Card {
         this._heart = this._cart.querySelector('.element__heart');
         this._deleteButton = this._cart.querySelector('.element__delete-button');
 
-        this._setPicture();
-        this._setTitle();
+        this._setupPicture();
+        this._setupTitle();
         this._setEventListeners();
 
         return this._cart;
@@ -35,12 +35,12 @@ export default class Card {
         return cardElement;
     }
 
-    _setPicture() {
+    _setupPicture() {
         this._picture.src = this._link;
         this._picture.alt = this._name;
     }
 
-    _setTitle() {
+    _setupTitle() {
         this._title.textContent = this._name;
     }
 
@@ -73,4 +73,3 @@ export default class Card {
         }
     };
 }
-
