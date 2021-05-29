@@ -23,7 +23,7 @@ export default class Card {
     _picturePopup = document.querySelector('.popup_type_image')
     _picturePopupImage = this._picturePopup.querySelector('.popup__image')
     _picturePopupImageName = this._picturePopup.querySelector('.popup__image-name')
-    _closePictureButton = this._picturePopup.querySelector('.popup__close');
+    _closePopupButton = this._picturePopup.querySelector('.popup__close');
 
     _getElement() {
         const cardElement = document
@@ -48,7 +48,7 @@ export default class Card {
         this._heart.addEventListener('click', this._heartClickHandler);
         this._deleteButton.addEventListener('click', this._deleteButtonClickHandler);
         this._picture.addEventListener('click', this._pictureClickHandler);
-        this._closePictureButton.addEventListener('click', this._closePictureButtonClickHandler);
+        this._closePopupButton.addEventListener('click', this._closePopupHandler);
     }
 
     _heartClickHandler = (evt) => evt.target.classList.toggle('element__heart_active');
@@ -62,14 +62,14 @@ export default class Card {
         this._picturePopup.classList.add('popup_opened') ;
     };
 
-    _closePictureButtonClickHandler = () => {
+    _closePopupHandler = () => {
         removeEventListener('keyup', this._escapeHandler)
         this._picturePopup.classList.remove('popup_opened');
     }
 
     _escapeHandler = (evt) => {
         if (evt.key == this._escape) {
-            this._closePictureButtonClickHandler();
+            this._closePopupHandler();
         }
     };
 }
