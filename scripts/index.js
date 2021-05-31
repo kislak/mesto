@@ -77,14 +77,12 @@ addPlaceButton.addEventListener('click', openPlace);
 placeForm.addEventListener('submit', submitPlace);
 
 popups.forEach((popup) => {
-    popup.addEventListener('click',() => closePopup(popup));
+    popup.addEventListener('click', (evt) => {
+        const classList = evt.target.classList
 
-    popup.querySelector('.popup__container').addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup__close')) {
-            closePopup(popup)
-        } else {
-            evt.stopPropagation();
-        }
+        if (classList.contains('popup') || classList.contains('popup__close')) {
+            closePopup(popup);
+        };
     });
 });
 
