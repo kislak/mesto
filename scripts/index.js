@@ -43,6 +43,7 @@ const closePopup = (popup) => {
 }
 
 const openProfile = () => {
+    profileForm.reset();
     profileNameField.value = profileName.textContent;
     profileTitleField.value = profileTitle.textContent;
     openPopup(profilePopup);

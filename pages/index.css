@@ -43,3 +43,4 @@
 @import url("../blocks/popup/__container/_type_image/popup__container_type_image.css");
 @import url("../blocks/popup/__input-error/popup__input-error.css");
 @import url("../blocks/popup/__input-error/_visible/popup__input-error_visible.css");
+@import url("../blocks/popup/__field/_invalid/popup__field_invalid.css");
