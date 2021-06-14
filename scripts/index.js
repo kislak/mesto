@@ -1,6 +1,8 @@
 import initialCards from "./initialCards.js"
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import Section from "./Section.js";
+
 import {
     escape,
     cardTemplateSelector,
@@ -62,11 +64,17 @@ const openPlace = () => {
     openPopup(placePopup)
 }
 
-const addCard = (card) => elementsList.prepend(card);
+const section = new Section({ items: initialCards, renderer: (item) => {
+        const card = new Card(item, cardTemplateSelector).generateCard()
+        section.addItem(card);
+    }
+}, elementsList)
+
+section.render()
 
 const submitPlace = (evt) => {
     evt.preventDefault();
-    addCard(new Card({ name: placeNameInput.value, link: placeLinkInput.value }, cardTemplateSelector).generateCard());
+    section.addItem(new Card({ name: placeNameInput.value, link: placeLinkInput.value }, cardTemplateSelector).generateCard());
     closePopup(placePopup)
 }
 
@@ -86,9 +94,6 @@ popups.forEach((popup) => {
     });
 });
 
-initialCards.forEach((item) => {
-    addCard(new Card(item, cardTemplateSelector).generateCard())
-})
 
 new FormValidator(validationConfig, 'form[name="editProfile"]').enableValidation();
 new FormValidator(validationConfig, 'form[name="addPlace"]').enableValidation();
