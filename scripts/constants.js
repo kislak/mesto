@@ -16,7 +16,4 @@ export const picturePopupImage = picturePopup.querySelector('.popup__image');
 export const picturePopupImageName = picturePopup.querySelector('.popup__image-name');
 
 export const addPlaceButton = document.querySelector('.profile__add-button');
-
-export const profileName = document.querySelector('.profile__name-text');
-export const profileTitle = document.querySelector('.profile__title');
 export const editProfileButton = document.querySelector('.profile__edit-button');

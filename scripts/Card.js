@@ -1,11 +1,9 @@
-import PopupWithImage from "./PopupWithImage.js";
-const popupWithImage = new PopupWithImage('.popup_type_image')
-
 export default class Card {
-    constructor(data, templateSelector) {
+    constructor(data, templateSelector, handleCardClick) {
         this._name = data.name;
         this._link = data.link;
         this._templateSelector = templateSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     generateCard() {
@@ -37,14 +35,9 @@ export default class Card {
     _setEventListeners() {
         this._heart.addEventListener('click', this._heartClickHandler);
         this._deleteButton.addEventListener('click', this._deleteButtonClickHandler);
-        this._picture.addEventListener('click', this._pictureClickHandler);
+        this._picture.addEventListener('click', this._handleCardClick);
     }
 
     _heartClickHandler = (evt) => evt.target.classList.toggle('element__heart_active');
-
     _deleteButtonClickHandler = () => this._card.remove();
-
-    _pictureClickHandler = () => {
-        popupWithImage.open({link: this._link, name: this._name })
-    };
 }
