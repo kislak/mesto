@@ -1,29 +1,30 @@
 import Popup from "./Popup.js";
-import {
-    placeForm,
-    addPlaceButton,
-    submitPlacePopupButton
-} from "./constants.js"
 
 export default class PopupWithForm extends Popup {
-    constructor(placeFormSelector, submitHandler) {
-        super(placeFormSelector);
+    constructor(placeForm, submitHandler) {
+        super(placeForm);
         this._submitHandler = submitHandler;
-        submitPlacePopupButton.disabled = true;
+        this._form = this._popup.querySelector('.popup__form');
+        this._submitButton = this._popup.querySelector('.popup__submit');
+        this._submitButton.disabled = true;
     }
 
     close() {
         super.close()
-        placeForm.reset();
-        submitPlacePopupButton.disabled = true;
+        this._form.reset();
+        this._submitButton.disabled = true;
     }
 
     setEventListeners() {
-        placeForm.addEventListener('submit', this._submitHandler);
+        this._form.addEventListener('submit', this._submitHandler);
         super.setEventListeners();
     }
 
     _getInputValues() {
-
+        return Object.fromEntries(
+            Array.from(this._form.querySelectorAll('.popup__field')).map(({ name, value }) => {
+                return [name, value]
+            })
+        );
     }
 }
