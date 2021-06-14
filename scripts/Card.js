@@ -1,4 +1,7 @@
-import { openPopup}  from './index.js'
+// import { openPopup}  from './index.js'
+import PopupWithImage from "./PopupWithImage.js";
+
+const popupWithImage = new PopupWithImage('.popup_type_image')
 
 export default class Card {
     constructor(data, templateSelector) {
@@ -6,9 +9,9 @@ export default class Card {
         this._link = data.link;
         this._templateSelector = templateSelector;
 
-        this._picturePopup = document.querySelector('.popup_type_image');
-        this._picturePopupImage = this._picturePopup.querySelector('.popup__image');
-        this._picturePopupImageName = this._picturePopup.querySelector('.popup__image-name');
+        // this._picturePopup = document.querySelector('.popup_type_image');
+        // this._picturePopupImage = this._picturePopup.querySelector('.popup__image');
+        // this._picturePopupImageName = this._picturePopup.querySelector('.popup__image-name');
     }
 
     generateCard() {
@@ -48,10 +51,6 @@ export default class Card {
     _deleteButtonClickHandler = () => this._card.remove();
 
     _pictureClickHandler = () => {
-        this._picturePopupImage.src = this._link;
-        this._picturePopupImage.alt = this._name;
-        this._picturePopupImageName.textContent = this._name;
-
-        openPopup(this._picturePopup);
+        popupWithImage.open({link: this._link, name: this._name })
     };
 }

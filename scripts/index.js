@@ -2,6 +2,7 @@ import initialCards from "./initialCards.js"
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import Section from "./Section.js";
+import PopupWithImage from "./PopupWithImage.js"
 
 import {
     escape,
@@ -25,7 +26,7 @@ const placeLinkInput =  placeForm.querySelector('.popup__field_name_link');
 const submitPlacePopupButton = placePopup.querySelector('.popup__submit');
 
 const elementsList = document.querySelector('.elements__list');
-const popups = Array.from(document.querySelectorAll('.popup'))
+// const popups = Array.from(document.querySelectorAll('.popup'))
 
 const escapeHandler = (evt) => {
     if (evt.key == escape) {
@@ -70,7 +71,7 @@ const section = new Section({ items: initialCards, renderer: (item) => {
     }
 }, elementsList)
 
-section.render()
+section.render();
 
 const submitPlace = (evt) => {
     evt.preventDefault();
@@ -84,16 +85,15 @@ profileForm.addEventListener('submit', submitProfile);
 addPlaceButton.addEventListener('click', openPlace);
 placeForm.addEventListener('submit', submitPlace);
 
-popups.forEach((popup) => {
-    popup.addEventListener('click', (evt) => {
-        const classList = evt.target.classList
-
-        if (classList.contains('popup') || classList.contains('popup__close')) {
-            closePopup(popup);
-        };
-    });
-});
-
+// popups.forEach((popup) => {
+//     popup.addEventListener('click', (evt) => {
+//         const classList = evt.target.classList
+//
+//         if (classList.contains('popup') || classList.contains('popup__close')) {
+//             closePopup(popup);
+//         };
+//     });
+// });
 
 new FormValidator(validationConfig, 'form[name="editProfile"]').enableValidation();
 new FormValidator(validationConfig, 'form[name="addPlace"]').enableValidation();
