@@ -1,36 +1,29 @@
 import Popup from "./Popup.js";
-import Card from "./Card";
-import {cardTemplateSelector} from "./constants";
-import {openPopup} from "./index";
+import {
+    placeForm,
+    addPlaceButton,
+    submitPlacePopupButton
+} from "./constants.js"
 
 export default class PopupWithForm extends Popup {
-    constructor(placeForm, submitHandler) {
-        super(placeForm);
+    constructor(placeFormSelector, submitHandler) {
+        super(placeFormSelector);
         this._submitHandler = submitHandler;
+        submitPlacePopupButton.disabled = true;
     }
 
     close() {
+        super.close()
         placeForm.reset();
         submitPlacePopupButton.disabled = true;
     }
 
     setEventListeners() {
-        placeForm.addEventListener('submit', submitPlace);
-        addPlaceButton.addEventListener('click', openPlace);
+        placeForm.addEventListener('submit', this._submitHandler);
+        super.setEventListeners();
     }
 
     _getInputValues() {
 
     }
-}
-
-
-const openPlace = () => {
-
-}
-
-const submitPlace = (evt) => {
-    evt.preventDefault();
-    addCard(new Card({ name: placeNameInput.value, link: placeLinkInput.value }, cardTemplateSelector).generateCard());
-    closePopup(placePopup)
 }

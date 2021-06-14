@@ -1,6 +1,4 @@
-// import { openPopup}  from './index.js'
 import PopupWithImage from "./PopupWithImage.js";
-
 const popupWithImage = new PopupWithImage('.popup_type_image')
 
 export default class Card {
@@ -8,10 +6,6 @@ export default class Card {
         this._name = data.name;
         this._link = data.link;
         this._templateSelector = templateSelector;
-
-        // this._picturePopup = document.querySelector('.popup_type_image');
-        // this._picturePopupImage = this._picturePopup.querySelector('.popup__image');
-        // this._picturePopupImageName = this._picturePopup.querySelector('.popup__image-name');
     }
 
     generateCard() {

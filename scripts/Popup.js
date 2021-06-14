@@ -12,13 +12,14 @@ export default class Popup {
 
     close() {
         this._popup.classList.remove('popup_opened');
-        removeEventListener('keyup', this._handleEscClose.bind(this))
+        removeEventListener('keyup', this._handleEscClose)
     }
 
     setEventListeners() {
         addEventListener('keyup', this._handleEscClose.bind(this));
 
         this._popup.addEventListener('click', (evt) => {
+            evt.stopPropagation();
             const classList = evt.target.classList
 
             if (classList.contains('popup') || classList.contains('popup__close')) {
