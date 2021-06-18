@@ -2,7 +2,7 @@
   width: 142px;
   height: 33px;
   margin: 45px 0px 41px;
-  background-image: url(src/images/logo-white.svg);
+  background-image: url(../../../images/logo-white.svg);
   background-size: contain;
   background-repeat: no-repeat;
 }

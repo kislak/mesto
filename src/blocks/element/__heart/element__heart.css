@@ -4,7 +4,7 @@
   border: 0px;
   margin: 0px 30px 0px 0px;
   padding: 0px;
-  background-image: url("src/images/heart.svg");
+  background-image: url("../../../images/heart.svg");
   background-color: transparent;
 }
 
@@ -15,5 +15,5 @@
 
 .element__heart:active {
   opacity: 1;
-  background-image: url("src/images/heart-active.svg");
+  background-image: url("../../../images/heart-active.svg");
 }

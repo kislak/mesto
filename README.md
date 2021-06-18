@@ -19,6 +19,14 @@
 ## [ссылкa на GitHub Pages](https://kislak.github.io/mesto/)
 
 
+## how to play
+```
+npm run build
+npm run dev
+```
+
+
+
 ### tips and links
 
 ####fonts
