@@ -4,7 +4,7 @@
   right: -40px;
   height: 48px;
   width: 48px;
-  background: url("../../../images/close_button.svg");
+  background: url("src/images/close_button.svg");
   background-size: contain;
   background-repeat: no-repeat;
   border: none;
