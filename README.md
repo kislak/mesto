@@ -21,6 +21,7 @@
 
 ## how to play
 ```
+npm ci          # install from package-lock.json
 npm run build
 npm run dev
 ```
