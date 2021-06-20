@@ -7,6 +7,7 @@ export default class PopupWithForm extends Popup {
         this._form = this._popup.querySelector('.popup__form');
         this._submitButton = this._popup.querySelector('.popup__submit');
         this._submitButton.disabled = true;
+        this._inputFileds = Array.from(this._form.querySelectorAll('.popup__field'))
     }
 
     close() {
@@ -22,7 +23,7 @@ export default class PopupWithForm extends Popup {
 
     _getInputValues() {
         return Object.fromEntries(
-            Array.from(this._form.querySelectorAll('.popup__field')).map(({ name, value }) => {
+            this._inputFileds.map(({ name, value }) => {
                 return [name, value]
             })
         );

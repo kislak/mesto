@@ -3,22 +3,20 @@ import { escape } from "./constants.js";
 export default class Popup {
     constructor(popupSelector) {
         this._popup = document.querySelector(popupSelector);
-        this._isOpen = false
+        this._escapeHandler = this._handleEscClose.bind(this)
     }
 
     open() {
         this._popup.classList.add('popup_opened') ;
-        this._isOpen = true
+        document.addEventListener('keyup', this._escapeHandler);
     }
 
     close() {
         this._popup.classList.remove('popup_opened');
-        this._isOpen = false;
+        document.removeEventListener('keyup', this._escapeHandler);
     }
 
     setEventListeners() {
-        addEventListener('keyup', this._handleEscClose.bind(this));
-
         this._popup.addEventListener('click', (evt) => {
             evt.stopPropagation();
             const classList = evt.target.classList
@@ -30,7 +28,7 @@ export default class Popup {
     }
 
     _handleEscClose(evt) {
-        if (this._isOpen && evt.key == escape) {
+        if (evt.key == escape) {
             this.close();
         }
     }
