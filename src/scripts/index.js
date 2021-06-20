@@ -16,6 +16,8 @@ import {
 } from "./constants.js";
 
 const popupWithImage = new PopupWithImage('.popup_type_image');
+popupWithImage.setEventListeners();
+
 const userInfo = new UserInfo('.profile__name-text', '.profile__title');
 
 const section = new Section({ items: initialCards, renderer: (item) => {
@@ -34,7 +36,8 @@ const placePopup = new PopupWithForm('.popup_type_add-place', (evt) => {
     })
     section.addItem(card.generateCard());
     placePopup.close();
-})
+});
+placePopup.setEventListeners();
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     evt.preventDefault();
@@ -42,6 +45,7 @@ const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     userInfo.setUserInfo(name, title)
     profilePopup.close();
 })
+profilePopup.setEventListeners();
 
 new FormValidator(validationConfig, 'form[name="editProfile"]').enableValidation();
 new FormValidator(validationConfig, 'form[name="addPlace"]').enableValidation();
