@@ -23,6 +23,10 @@ export default class FormValidator {
         this._formElement.addEventListener('reset', this._resetFormHandler);
     };
 
+    disableSubmitButton = () => {
+        this._buttonElement.disabled = true;
+    }
+
     _toggleButtonState = () => {
         this._buttonElement.disabled = this._hasInvalidInput();
     };

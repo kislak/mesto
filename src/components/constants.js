@@ -11,9 +11,5 @@ export const validationConfig = {
 
 export const elementsList = document.querySelector('.elements__list');
 
-const picturePopup = document.querySelector('.popup_type_image');
-export const picturePopupImage = picturePopup.querySelector('.popup__image');
-export const picturePopupImageName = picturePopup.querySelector('.popup__image-name');
-
 export const addPlaceButton = document.querySelector('.profile__add-button');
 export const editProfileButton = document.querySelector('.profile__edit-button');
