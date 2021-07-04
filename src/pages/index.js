@@ -6,7 +6,8 @@ import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 
-import initialCards from "../components/initialCards.js"
+import Api from "../components/Api.js";
+
 import {
     elementsList,
     cardTemplateSelector,
@@ -15,8 +16,18 @@ import {
     editProfileButton
 } from "../components/constants.js";
 
+
+// import initialCards from "../components/initialCards.js"
+
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-25',
+    headers: {
+        authorization: 'f852889b-4e45-42a6-a8c2-82025ba7c42c',
+        'Content-Type': 'application/json'
+    }
+});
+
 const popupWithImage = new PopupWithImage('.popup_type_image');
-const userInfo = new UserInfo('.profile__name-text', '.profile__title');
 
 const createCard = (item) => {
     const card = new Card(item, cardTemplateSelector, () => {
@@ -25,46 +36,68 @@ const createCard = (item) => {
     return card.generateCard();
 };
 
-const section = new Section({ items: initialCards, renderer: (item) => {
-        section.addItem(createCard(item));
-    }
-}, elementsList)
 
-const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
-    evt.preventDefault();
-    section.addItem(createCard( { name, link }));
-    placePopup.close();
-});
+api.getUser().then((user) => {
+    console.log(user);
 
-const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
-    evt.preventDefault();
-    userInfo.setUserInfo( { name, title })
-    profilePopup.close();
+    const userInfo = new UserInfo('.profile__name-text', '.profile__title');
+    const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
+        evt.preventDefault();
+        userInfo.setUserInfo( { name, title })
+        profilePopup.close();
+    })
+    const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
+
+    editProfileButton.addEventListener('click', () => {
+        const { name, title } = userInfo.getUserInfo();
+        profilePopupName.value = name;
+        profilePopupTitle.value = title;
+        profileValidator.disableSubmitButton();
+        profilePopup.open()
+    });
+
+    const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
+    const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
+
+    profilePopup.setEventListeners();
+    profileValidator.enableValidation();
+
+    userInfo.setUserInfo( { name: user.name, title: user.about })
 })
-
-const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
-const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
-
-const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
-const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
-
-popupWithImage.setEventListeners();
-placePopup.setEventListeners();
-profilePopup.setEventListeners();
-profileValidator.enableValidation();
-placeValidator.enableValidation();
-
-addPlaceButton.addEventListener('click', () => {
-    placeValidator.disableSubmitButton();
-    placePopup.open()
+.catch((err) => {
+    console.log(err);
 });
 
-editProfileButton.addEventListener('click', () => {
-    const { name, title } = userInfo.getUserInfo();
-    profilePopupName.value = name;
-    profilePopupTitle.value = title;
-    profileValidator.disableSubmitButton();
-    profilePopup.open()
+
+api.getInitialCards().then((initialCards) => {
+    const section = new Section({ items: initialCards, renderer: (item) => {
+            section.addItem(createCard(item));
+        }
+    }, elementsList)
+
+    const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
+        evt.preventDefault();
+        section.addItem(createCard( { name, link }));
+        placePopup.close();
+    });
+
+    placePopup.setEventListeners();
+
+    addPlaceButton.addEventListener('click', () => {
+        placeValidator.disableSubmitButton();
+        placePopup.open()
+    });
+
+    const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
+
+    popupWithImage.setEventListeners();
+    placeValidator.enableValidation();
+
+    section.render();
+})
+.catch((err) => {
+    console.log(err);
 });
 
-section.render();
+
+
