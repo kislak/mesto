@@ -38,8 +38,8 @@ api.getUser().then((user) => {
     const userInfo = new UserInfo('.profile__name-text', '.profile__title');
     const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
         evt.preventDefault();
-        api.setUser(name, title).then( () => {
-            userInfo.setUserInfo( { name, title })
+        api.setUser(name, title).then( (res) => {
+            userInfo.setUserInfo( { name: res.name, title: res.about })
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
@@ -77,8 +77,13 @@ api.getInitialCards().then((initialCards) => {
 
     const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
         evt.preventDefault();
-        section.addItem(createCard( { name, link }));
-        placePopup.close();
+        api.addCard(name, link).then( (res) => {
+            section.addItem(createCard( res ));
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            placePopup.close();
+        });
     });
 
     placePopup.setEventListeners();
