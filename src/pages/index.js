@@ -16,9 +16,6 @@ import {
     editProfileButton
 } from "../components/constants.js";
 
-
-// import initialCards from "../components/initialCards.js"
-
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-25',
     headers: {
@@ -38,13 +35,16 @@ const createCard = (item) => {
 
 
 api.getUser().then((user) => {
-    console.log(user);
-
     const userInfo = new UserInfo('.profile__name-text', '.profile__title');
     const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
         evt.preventDefault();
-        userInfo.setUserInfo( { name, title })
-        profilePopup.close();
+        api.setUser(name, title).then( () => {
+            userInfo.setUserInfo( { name, title })
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            profilePopup.close();
+        });
     })
     const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
 

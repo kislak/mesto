@@ -7,27 +7,41 @@ export default class Api {
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers
-        })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
+        }).then(res => {
 
-                return Promise.reject(`Ошибка: ${res.status}`);
-            });
+            if (res.ok) {
+                return res.json();
+            }
+
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
     }
 
     getUser() {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
-        })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
 
-                return Promise.reject(`Ошибка: ${res.status}`);
-            });
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
+    setUser(name, about) {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                name: name,
+                about: about
+            })
+        }).then(res => {
+            console.log(res)
+            if (res.ok) { return res.json() }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
     }
 }
 
