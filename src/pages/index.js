@@ -33,9 +33,10 @@ const createCard = (item) => {
     return card.generateCard();
 };
 
+const userInfo = new UserInfo('.profile__name-text', '.profile__title');
+const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
 
 api.getUser().then((user) => {
-    const userInfo = new UserInfo('.profile__name-text', '.profile__title');
     const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
         evt.preventDefault();
         api.setUser(name, title).then( (res) => {
@@ -46,7 +47,8 @@ api.getUser().then((user) => {
             profilePopup.close();
         });
     })
-    const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
+    const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
+    const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
 
     editProfileButton.addEventListener('click', () => {
         const { name, title } = userInfo.getUserInfo();
@@ -56,53 +58,47 @@ api.getUser().then((user) => {
         profilePopup.open()
     });
 
-    const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
-    const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
-
     profilePopup.setEventListeners();
     profileValidator.enableValidation();
 
     userInfo.setUserInfo( { name: user.name, title: user.about })
-})
-.catch((err) => {
-    console.log(err);
-});
 
+    api.getInitialCards().then((initialCards) => {
+        console.log(initialCards);
+        const section = new Section({ items: initialCards, renderer: (item) => {
+                item.can_delete = (user._id == item.owner._id)
+                section.addItem(createCard(item));
+            }
+        }, elementsList)
 
-api.getInitialCards().then((initialCards) => {
-    const section = new Section({ items: initialCards, renderer: (item) => {
-            section.addItem(createCard(item));
-        }
-    }, elementsList)
-
-    const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
-        evt.preventDefault();
-        api.addCard(name, link).then( (res) => {
-            section.addItem(createCard( res ));
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() => {
-            placePopup.close();
+        const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
+            evt.preventDefault();
+            api.addCard(name, link).then( (res) => {
+                section.addItem(createCard( res ));
+            }).catch((err) => {
+                console.log(err);
+            }).finally(() => {
+                placePopup.close();
+            });
         });
+
+        placePopup.setEventListeners();
+
+        addPlaceButton.addEventListener('click', () => {
+            placeValidator.disableSubmitButton();
+            placePopup.open()
+        });
+
+        const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
+
+        popupWithImage.setEventListeners();
+        placeValidator.enableValidation();
+
+        section.render();
+    }).catch((err) => {
+        console.log(err);
     });
-
-    placePopup.setEventListeners();
-
-    addPlaceButton.addEventListener('click', () => {
-        placeValidator.disableSubmitButton();
-        placePopup.open()
-    });
-
-    const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
-
-    popupWithImage.setEventListeners();
-    placeValidator.enableValidation();
-
-    section.render();
 })
 .catch((err) => {
     console.log(err);
-});
-
-
-
+})

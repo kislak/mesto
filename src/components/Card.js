@@ -4,6 +4,7 @@ export default class Card {
     constructor(data, templateSelector, handleCardClick) {
         this._name = data.name;
         this._link = data.link;
+        this._can_delete = data.can_delete;
         this._likes_length = data.likes.length;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
@@ -23,6 +24,10 @@ export default class Card {
         this._likeCounter.textContent = this._likes_length;
 
         this._setEventListeners();
+
+        if (!this._can_delete) {
+          this._deleteButton.hidden = true;
+        }
 
         return this._card;
     }
