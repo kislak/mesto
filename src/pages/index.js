@@ -5,7 +5,6 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
-// import PopupWithAvatar from "../components/PopupWithAvatar.js";
 
 import Api from "../components/Api.js";
 
@@ -136,7 +135,6 @@ api.getUser().then((user) => {
     });
 
     api.getInitialCards().then((initialCards) => {
-        console.log(initialCards);
         const section = new Section({ items: initialCards, renderer: (item) => {
                 section.addItem(createCard(item, user));
             }
