@@ -27,9 +27,20 @@ const api = new Api({
 const popupWithImage = new PopupWithImage('.popup_type_image');
 
 const createCard = (item) => {
-    const card = new Card(item, cardTemplateSelector, () => {
-        popupWithImage.open(item);
-    });
+    const card = new Card(
+        item,
+        cardTemplateSelector,
+        () => {
+            popupWithImage.open(item);
+        },
+        (id, card) => {
+            api.deleteCard(id).then( (res) => {
+                card.remove();
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+
     return card.generateCard();
 };
 
@@ -73,8 +84,9 @@ api.getUser().then((user) => {
 
         const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
             evt.preventDefault();
-            api.addCard(name, link).then( (res) => {
-                section.addItem(createCard( res ));
+            api.addCard(name, link).then( (item ) => {
+                item.can_delete = true
+                section.prependItem(createCard( item ));
             }).catch((err) => {
                 console.log(err);
             }).finally(() => {
