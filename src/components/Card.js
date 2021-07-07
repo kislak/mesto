@@ -1,15 +1,21 @@
 import PopupConfirmation from "../components/PopupConfirmation";
 
 export default class Card {
-    constructor(data, templateSelector, handleCardClick, deleteButtonClickHandler) {
+    constructor(data, current_user, templateSelector, handleCardClick, handleDeleteButtonClick, heartClickHandler) {
         this._name = data.name;
         this._link = data.link;
-        this._can_delete = data.can_delete;
         this._id = data._id;
         this._likes_length = data.likes.length;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
-        this._deleteButtonClickHandler = deleteButtonClickHandler;
+        this._handleDeleteButtonClick = handleDeleteButtonClick;
+        this._handleHeartClick = heartClickHandler
+
+        this._current_user_id = current_user._id
+        this._owner_id = data.owner._id
+
+        console.log(data.likes)
+        this._like_on = data.likes.map((like) => like._id).includes(this._current_user_id)
     }
 
     generateCard() {
@@ -23,14 +29,15 @@ export default class Card {
         this._picture.src = this._link;
         this._picture.alt = this._name;
         this._title.textContent = this._name;
-        this._likeCounter.textContent = this._likes_length;
 
-        this._setEventListeners();
-
-        if (!this._can_delete) {
-          this._deleteButton.hidden = true;
+        if (this._like_on) {
+          this._heart.classList.add('element__heart_active');
         }
 
+        this._likeCounter.textContent = this._likes_length;
+        this._deleteButton.hidden = this._can_delete;
+
+        this._setEventListeners();
         return this._card;
     }
 
@@ -50,10 +57,24 @@ export default class Card {
         this._picture.addEventListener('click', this._handleCardClick);
     }
 
-    _heartClickHandler = (evt) => evt.target.classList.toggle('element__heart_active');
+    _heartClickHandler = (evt) => {
+        // target, cardId, likeCounter
+        this._handleHeartClick(evt.target, this._id, this._likeCounter)
+        // this._likeCounter.textContent = this._likes_length;
+        // .classList.toggle('element__heart_active');
+    }
+
     _deleteButtonClickWithConfirmationHandler = () => {
-        const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', () => { this._deleteButtonClickHandler(this._id, this._card) })
+        const popupConfirmation = new PopupConfirmation('.popup_type_confirmation',
+            () => {
+                this._handleDeleteButtonClick(this._id, this._card)
+            });
         popupConfirmation.setEventListeners();
         popupConfirmation.open();
     }
-}
+
+    _can_delete() {
+
+        return this._owner_id == this._current_user_id;
+    }
+ }

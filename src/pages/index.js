@@ -26,20 +26,53 @@ const api = new Api({
 
 const popupWithImage = new PopupWithImage('.popup_type_image');
 
-const createCard = (item) => {
-    const card = new Card(
-        item,
-        cardTemplateSelector,
-        () => {
-            popupWithImage.open(item);
-        },
-        (id, card) => {
-            api.deleteCard(id).then( (res) => {
-                card.remove();
+const createCard = (item, current_user) => {
+    const cardClickHandler = () => {
+        popupWithImage.open(item);
+    }
+
+    const deleteButtonClickHandler = (id, card) => {
+        api.deleteCard(id).then( () => {
+            card.remove();
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    const heartClickHandler = (target, cardId, likeCounter) => {
+        target.disabled = true;
+
+        if (target.classList.contains('element__heart_active')) {
+            target.classList.remove('element__heart_active');
+
+            api.removeLike(cardId).then((item) => {
+                likeCounter.textContent = item.likes.length;
             }).catch((err) => {
                 console.log(err);
-            });
-        });
+                target.classList.add('element__heart_active');
+            }).finally(() => {
+                target.disabled = false;
+            })
+        } else {
+            target.classList.add('element__heart_active')
+            api.addLike(cardId).then((item) => {
+                likeCounter.textContent = item.likes.length;
+            }).catch((err) => {
+                console.log(err);
+                target.classList.remove('element__heart_active')
+            }).finally(() => {
+                target.disabled = false;
+            })
+        }
+    };
+
+    const card = new Card(
+        item,
+        current_user,
+        cardTemplateSelector,
+        cardClickHandler,
+        deleteButtonClickHandler,
+        heartClickHandler)
 
     return card.generateCard();
 };
@@ -77,16 +110,14 @@ api.getUser().then((user) => {
     api.getInitialCards().then((initialCards) => {
         console.log(initialCards);
         const section = new Section({ items: initialCards, renderer: (item) => {
-                item.can_delete = (user._id == item.owner._id)
-                section.addItem(createCard(item));
+                section.addItem(createCard(item, user));
             }
         }, elementsList)
 
         const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
             evt.preventDefault();
             api.addCard(name, link).then( (item ) => {
-                item.can_delete = true
-                section.prependItem(createCard( item ));
+                section.prependItem(createCard( item, user ));
             }).catch((err) => {
                 console.log(err);
             }).finally(() => {
