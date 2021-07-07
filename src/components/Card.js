@@ -34,7 +34,7 @@ export default class Card {
         }
 
         this._likeCounter.textContent = this._likes_length;
-        this._deleteButton.hidden = this._can_delete;
+        this._deleteButton.hidden = !this._can_delete();
 
         this._setEventListeners();
         return this._card;
@@ -57,10 +57,7 @@ export default class Card {
     }
 
     _heartClickHandler = (evt) => {
-        // target, cardId, likeCounter
         this._handleHeartClick(evt.target, this._id, this._likeCounter)
-        // this._likeCounter.textContent = this._likes_length;
-        // .classList.toggle('element__heart_active');
     }
 
     _deleteButtonClickWithConfirmationHandler = () => {
@@ -73,7 +70,6 @@ export default class Card {
     }
 
     _can_delete() {
-
         return this._owner_id == this._current_user_id;
     }
  }
