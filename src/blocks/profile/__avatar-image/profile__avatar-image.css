@@ -1,9 +1,13 @@
-.profile__avatar {
+.profile__avatar-image {
+  max-width: 169px;
+  max-height: 128px;
+  margin-right: 20px;
+  border-radius: 50%;
   grid-area: avatar;
 }
 
 @media (max-width: 588px) {
-  .profile__avatar {
+  .profile__avatar-image {
     margin: 0 auto;
   }
 }

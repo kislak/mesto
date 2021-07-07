@@ -12,7 +12,10 @@
     <main>
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="<%= require('./images/kusto.jpg') %>" alt="кусто">
+          <div class="profile__avatar">
+            <img class="profile__avatar-image" src="<%= require('./images/kusto.jpg') %>" alt="кусто">
+            <div class="profile__avatar-pencil"></div>
+          </div>
           <div class="profile__name">
             <h1 class="profile__name-text"></h1>
             <button class="profile__edit-button" type="button" aria-label="редактировать профайл"></button>
