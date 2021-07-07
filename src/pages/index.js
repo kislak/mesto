@@ -87,7 +87,6 @@ api.getUser().then((user) => {
     userInfo.setAvatar(user.avatar);
 
     const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
-        evt.preventDefault();
         api.setUser(name, title).then( (res) => {
             userInfo.setUserInfo( { name: res.name, title: res.about })
         }).catch((err) => {
@@ -112,9 +111,6 @@ api.getUser().then((user) => {
     profileValidator.enableValidation();
 
     const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }) => {
-        evt.preventDefault();
-
-
         api.updateAvatar(link).then( (user) => {
             userInfo.setAvatar(user.avatar)
         }).catch((err) => {
@@ -147,7 +143,6 @@ api.getUser().then((user) => {
         }, elementsList)
 
         const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }) => {
-            evt.preventDefault();
             api.addCard(name, link).then( (item ) => {
                 section.prependItem(createCard( item, user ));
             }).catch((err) => {
