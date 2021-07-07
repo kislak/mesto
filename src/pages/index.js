@@ -125,14 +125,19 @@ api.getUser().then((user) => {
 
     });
 
-    const avatarLink = popupWithAvatar._form.querySelector('#popup__avatar-link');
+    const avatarLink = popupWithAvatar._form.querySelector('#popup__input-avatar-link');
 
     popupWithAvatar.setEventListeners();
+
+    const avatarValidator = new FormValidator(validationConfig, 'form[name="changeAvatar"]');
+    avatarValidator.enableValidation();
+
+
     profileAvatar.addEventListener('click', () => {
         avatarLink.value = userInfo.getAvatar();
+        avatarValidator.disableSubmitButton();
         popupWithAvatar.open();
-    })
-
+    });
 
     api.getInitialCards().then((initialCards) => {
         console.log(initialCards);
