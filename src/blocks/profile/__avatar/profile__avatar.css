@@ -1,5 +1,10 @@
 .profile__avatar {
   grid-area: avatar;
+  min-width: 128px;
+  min-height: 128px;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
 }
 
 @media (max-width: 588px) {

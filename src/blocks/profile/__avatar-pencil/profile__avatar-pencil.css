@@ -2,8 +2,8 @@
   width: 26px;
   height: 26px;
   position: relative;
-  left: 60px;
-  top: -80px;
+  left: -80px;
+  top: 50px;
   background-image: url("../../../images/edit-profile-pencil.svg");
   background-size: contain;
   background-color: transparent;

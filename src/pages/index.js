@@ -5,6 +5,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+// import PopupWithAvatar from "../components/PopupWithAvatar.js";
 
 import Api from "../components/Api.js";
 
@@ -13,7 +14,8 @@ import {
     cardTemplateSelector,
     validationConfig,
     addPlaceButton,
-    editProfileButton
+    editProfileButton,
+    profileAvatar
 } from "../components/constants.js";
 
 const api = new Api({
@@ -77,10 +79,13 @@ const createCard = (item, current_user) => {
     return card.generateCard();
 };
 
-const userInfo = new UserInfo('.profile__name-text', '.profile__title');
+const userInfo = new UserInfo('.profile__name-text', '.profile__title', '.profile__avatar-image');
 const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
 
 api.getUser().then((user) => {
+    userInfo.setUserInfo( { name: user.name, title: user.about })
+    userInfo.setAvatar(user.avatar);
+
     const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }) => {
         evt.preventDefault();
         api.setUser(name, title).then( (res) => {
@@ -91,6 +96,7 @@ api.getUser().then((user) => {
             profilePopup.close();
         });
     })
+
     const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
     const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
 
@@ -105,7 +111,28 @@ api.getUser().then((user) => {
     profilePopup.setEventListeners();
     profileValidator.enableValidation();
 
-    userInfo.setUserInfo( { name: user.name, title: user.about })
+    const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }) => {
+        evt.preventDefault();
+
+
+        api.updateAvatar(link).then( (user) => {
+            userInfo.setAvatar(user.avatar)
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            popupWithAvatar.close();
+        });
+
+    });
+
+    const avatarLink = popupWithAvatar._form.querySelector('#popup__avatar-link');
+
+    popupWithAvatar.setEventListeners();
+    profileAvatar.addEventListener('click', () => {
+        avatarLink.value = userInfo.getAvatar();
+        popupWithAvatar.open();
+    })
+
 
     api.getInitialCards().then((initialCards) => {
         console.log(initialCards);

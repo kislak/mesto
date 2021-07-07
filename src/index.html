@@ -13,7 +13,7 @@
       <section class="profile">
         <div class="profile__info">
           <div class="profile__avatar">
-            <img class="profile__avatar-image" src="<%= require('./images/kusto.jpg') %>" alt="кусто">
+            <img class="profile__avatar-image" src="" alt="кусто">
             <div class="profile__avatar-pencil"></div>
           </div>
           <div class="profile__name">
@@ -117,6 +117,26 @@
         </form>
       </div>
     </div>
+
+    <div class="popup popup_type_avatar">
+      <div class="popup__container">
+        <button class="popup__close" type="button"></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" name="avatar">
+          <input
+              id="popup__avatar-link"
+              class="popup__field popup__field_name_link"
+              type="text"
+              name="link"
+              value=""
+              required
+          >
+          <span class="popup__input-error popup__input-avatar-error"></span>
+          <button class="popup__submit" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
 
     <template id="element-template">
       <li class="element">

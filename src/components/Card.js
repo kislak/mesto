@@ -14,7 +14,6 @@ export default class Card {
         this._current_user_id = current_user._id
         this._owner_id = data.owner._id
 
-        console.log(data.likes)
         this._like_on = data.likes.map((like) => like._id).includes(this._current_user_id)
     }
 

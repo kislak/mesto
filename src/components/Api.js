@@ -38,7 +38,6 @@ export default class Api {
                 about: about
             })
         }).then(res => {
-            console.log(res)
             if (res.ok) { return res.json() }
             return Promise.reject(`Ошибка: ${res.status}`);
         });
@@ -53,7 +52,6 @@ export default class Api {
                 link: link
             })
         }).then(res => {
-            console.log(res)
             if (res.ok) { return res.json() }
             return Promise.reject(`Ошибка: ${res.status}`);
         });
@@ -64,7 +62,6 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         }).then(res => {
-            console.log(res)
             if (res.ok) { return res.json() }
             return Promise.reject(`Ошибка: ${res.status}`);
         });
@@ -75,7 +72,6 @@ export default class Api {
             method: 'PUT',
             headers: this._headers,
         }).then(res => {
-            console.log(res)
             if (res.ok) {
                 return res.json()
             }
@@ -87,7 +83,21 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         }).then(res => {
-            console.log(res)
+            if (res.ok) {
+                return res.json()
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
+    updateAvatar(link) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                avatar: link
+            }),
+            }).then(res => {
             if (res.ok) {
                 return res.json()
             }

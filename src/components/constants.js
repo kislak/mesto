@@ -13,3 +13,4 @@ export const elementsList = document.querySelector('.elements__list');
 
 export const addPlaceButton = document.querySelector('.profile__add-button');
 export const editProfileButton = document.querySelector('.profile__edit-button');
+export const profileAvatar = document.querySelector('.profile__avatar');
