@@ -5,6 +5,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupConfirmation from "../components/PopupConfirmation";
 
 import Api from "../components/Api.js";
 
@@ -28,16 +29,19 @@ const api = new Api({
 const popupWithImage = new PopupWithImage('.popup_type_image');
 
 const createCard = (item, current_user) => {
-    const cardClickHandler = () => {
-        popupWithImage.open(item);
-    }
+    const cardClickHandler = () => {popupWithImage.open(item)}
 
     const deleteButtonClickHandler = (id, card) => {
-        api.deleteCard(id).then( () => {
-            card.remove();
-        }).catch((err) => {
-            console.log(err);
+        const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', () => {
+            console.log(id);
+            api.deleteCard(id).then( () => {
+                card.remove();
+            }).catch((err) => {
+                console.log(err);
+            });
         });
+        popupConfirmation.setEventListeners();
+        popupConfirmation.open();
     }
 
     const heartClickHandler = (target, cardId, likeCounter) => {

@@ -1,5 +1,3 @@
-import PopupConfirmation from "../components/PopupConfirmation";
-
 export default class Card {
     constructor(data, current_user, templateSelector, handleCardClick, handleDeleteButtonClick, heartClickHandler) {
         this._name = data.name;
@@ -52,21 +50,12 @@ export default class Card {
 
     _setEventListeners() {
         this._heart.addEventListener('click', this._heartClickHandler);
-        this._deleteButton.addEventListener('click', this._deleteButtonClickWithConfirmationHandler);
+        this._deleteButton.addEventListener('click', () => { this._handleDeleteButtonClick(this._id, this._card) });
         this._picture.addEventListener('click', this._handleCardClick);
     }
 
     _heartClickHandler = (evt) => {
         this._handleHeartClick(evt.target, this._id, this._likeCounter)
-    }
-
-    _deleteButtonClickWithConfirmationHandler = () => {
-        const popupConfirmation = new PopupConfirmation('.popup_type_confirmation',
-            () => {
-                this._handleDeleteButtonClick(this._id, this._card)
-            });
-        popupConfirmation.setEventListeners();
-        popupConfirmation.open();
     }
 
     _can_delete() {
