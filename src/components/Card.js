@@ -5,7 +5,7 @@ export default class Card {
         this._name = data.name;
         this._link = data.link;
         this._id = data._id;
-        this._likes_length = data.likes.length;
+        this._likesLength = data.likes.length;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
         this._handleDeleteButtonClick = handleDeleteButtonClick;
@@ -33,7 +33,7 @@ export default class Card {
           this._heart.classList.add('element__heart_active');
         }
 
-        this._likeCounter.textContent = this._likes_length;
+        this._likeCounter.textContent = this._likesLength;
         this._deleteButton.hidden = !this._can_delete();
 
         this._setEventListeners();
