@@ -38,6 +38,28 @@ export default class Card {
         return this._card;
     }
 
+    deleteCard() {
+        this._card.remove();
+    }
+
+    setLike(state) {
+        this._like_on = state;
+        if (this._like_on) {
+            this._heart.classList.add('element__heart_active');
+        } else {
+            this._heart.classList.remove('element__heart_active');
+        }
+    }
+
+    isLiked() {
+        return this._like_on
+    }
+
+    setLikeCounter(number) {
+        this._likesLength = number;
+        this._likeCounter.textContent = number;
+    }
+
     _getElement() {
         const cardElement = document
             .querySelector(this._templateSelector)
@@ -55,7 +77,7 @@ export default class Card {
     }
 
     _heartClickHandler = (evt) => {
-        this._handleHeartClick(evt.target, this._id, this._likeCounter)
+        this._handleHeartClick(evt.target, this)
     }
 
     _can_delete() {
