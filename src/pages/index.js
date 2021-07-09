@@ -28,19 +28,17 @@ const api = new Api({
 
 const popupWithImage = new PopupWithImage('.popup_type_image');
 
-const deleteButtonClickHandler = (card) => {
-    const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', () => {
-        api.deleteCard(card._id).then( () => {
-            card.deleteCard();
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() => {
-            popupConfirmation.close();
-        });
+const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', (card, evt) => {
+    api.deleteCard(card._id).then( () => {
+        card.deleteCard();
+    }).catch((err) => {
+        console.log(err);
+    }).finally(() => {
+        popupConfirmation.close();
     });
-    popupConfirmation.setEventListeners();
-    popupConfirmation.open();
-}
+});
+
+const deleteButtonClickHandler = (card) => { popupConfirmation.open(card); }
 
 const heartClickHandler = (target, card) => {
     target.disabled = true;
@@ -65,12 +63,12 @@ const heartClickHandler = (target, card) => {
     }
 };
 
-const createCard = (item, currentUser) => {
+const createCard = (item, currentUserId) => {
     const cardClickHandler = () => { popupWithImage.open(item) }
 
     const card = new Card(
         item,
-        currentUser,
+        currentUserId,
         cardTemplateSelector,
         cardClickHandler,
         deleteButtonClickHandler,
@@ -96,17 +94,6 @@ const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name,
 const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
 const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
 
-editProfileButton.addEventListener('click', () => {
-    const { name, title } = userInfo.getUserInfo();
-    profilePopupName.value = name;
-    profilePopupTitle.value = title;
-    profileValidator.disableSubmitButton();
-    profilePopup.open()
-});
-
-profilePopup.setEventListeners();
-profileValidator.enableValidation();
-
 const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }, button, buttonText) => {
     api.updateAvatar(link).then( (user) => {
         userInfo.setAvatar(user.avatar)
@@ -118,61 +105,55 @@ const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }, 
     });
 
 });
-
-const avatarLink = popupWithAvatar._form.querySelector('#popup__input-avatar-link');
-
-popupWithAvatar.setEventListeners();
-
 const avatarValidator = new FormValidator(validationConfig, 'form[name="changeAvatar"]');
-avatarValidator.enableValidation();
+const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
 
+const section = new Section(elementsList, (item, userId) => { section.addItem(createCard(item, userId)) } )
+
+const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }, button, buttonText) => {
+    api.addCard(name, link).then( (item) => {
+        section.prependItem(createCard( item, item.owner._id ));
+        placePopup.close();
+    }).catch((err) => {
+        console.log(err);
+    }).finally(() => {
+        button.textContent = buttonText;
+    });
+});
+
+popupConfirmation.setEventListeners();
+profilePopup.setEventListeners();
+popupWithAvatar.setEventListeners();
+popupWithImage.setEventListeners();
+placePopup.setEventListeners();
+avatarValidator.enableValidation();
+profileValidator.enableValidation();
+placeValidator.enableValidation();
+
+editProfileButton.addEventListener('click', () => {
+    const { name, title } = userInfo.getUserInfo();
+    profilePopupName.value = name;
+    profilePopupTitle.value = title;
+    profileValidator.disableSubmitButton();
+    profilePopup.open()
+});
 
 profileAvatar.addEventListener('click', () => {
-    avatarLink.value = userInfo.getAvatar();
     avatarValidator.disableSubmitButton();
     popupWithAvatar.open();
 });
 
-const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
+addPlaceButton.addEventListener('click', () => {
+    placeValidator.disableSubmitButton();
+    placePopup.open()
+});
 
-popupWithImage.setEventListeners();
-placeValidator.enableValidation();
+Promise.all([api.getUser(), api.getInitialCards()]).then((values) =>
+{
+    const user = values[0]
+    const initialCards = values[1]
 
-
-api.getUser().then((user) => {
     userInfo.setUserInfo( { name: user.name, title: user.about })
     userInfo.setAvatar(user.avatar);
-
-    api.getInitialCards().then((initialCards) => {
-
-        const section = new Section({ items: initialCards, renderer: (item) => {
-                section.addItem(createCard(item, user));
-            }
-        }, elementsList)
-
-        const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }, button, buttonText) => {
-            api.addCard(name, link).then( (item) => {
-                section.prependItem(createCard( item, user ));
-                placePopup.close();
-            }).catch((err) => {
-                console.log(err);
-            }).finally(() => {
-                button.textContent = buttonText;
-            });
-        });
-
-        placePopup.setEventListeners();
-
-        addPlaceButton.addEventListener('click', () => {
-            placeValidator.disableSubmitButton();
-            placePopup.open()
-        });
-
-        section.render();
-    }).catch((err) => {
-        console.log(err);
-    });
-})
-.catch((err) => {
-    console.log(err);
-})
+    section.render(initialCards, user._id);
+}).catch((err) => { console.log(err) });

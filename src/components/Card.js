@@ -1,5 +1,5 @@
 export default class Card {
-    constructor(data, current_user, templateSelector, handleCardClick, handleDeleteButtonClick, heartClickHandler) {
+    constructor(data, currentUserId, templateSelector, handleCardClick, handleDeleteButtonClick, heartClickHandler) {
         this._name = data.name;
         this._link = data.link;
         this._id = data._id;
@@ -9,10 +9,10 @@ export default class Card {
         this._handleDeleteButtonClick = handleDeleteButtonClick;
         this._handleHeartClick = heartClickHandler
 
-        this._current_user_id = current_user._id
-        this._owner_id = data.owner._id
+        this._currentUserId = currentUserId
+        this._ownerId = data.owner._id
 
-        this._like_on = data.likes.map((like) => like._id).includes(this._current_user_id)
+        this._like_on = data.likes.map((like) => like._id).includes(this._currentUserId)
     }
 
     generateCard() {
@@ -81,6 +81,6 @@ export default class Card {
     }
 
     _can_delete() {
-        return this._owner_id == this._current_user_id;
+        return this._ownerId == this._currentUserId;
     }
  }

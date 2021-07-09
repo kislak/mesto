@@ -20,9 +20,4 @@ export default class UserInfo {
     setAvatar(link) {
         this._profileAvatarImage.src = link;
     }
-
-    getAvatar() {
-        return this._profileAvatarImage.src;
-    }
-
 }
