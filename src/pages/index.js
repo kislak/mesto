@@ -28,9 +28,9 @@ const api = new Api({
 
 const popupWithImage = new PopupWithImage('.popup_type_image');
 
-const deleteButtonClickHandler = (id, card) => {
+const deleteButtonClickHandler = (card) => {
     const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', () => {
-        api.deleteCard(id).then( () => {
+        api.deleteCard(card._id).then( () => {
             card.deleteCard();
         }).catch((err) => {
             console.log(err);
@@ -82,69 +82,76 @@ const createCard = (item, currentUser) => {
 const userInfo = new UserInfo('.profile__name-text', '.profile__title', '.profile__avatar-image');
 const profileValidator = new FormValidator(validationConfig, 'form[name="editProfile"]');
 
+const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }, button, buttonText) => {
+    api.setUser(name, title).then( (res) => {
+        userInfo.setUserInfo( { name: res.name, title: res.about })
+        profilePopup.close();
+    }).catch((err) => {
+        console.log(err);
+    }).finally(() => {
+        button.textContent = buttonText;
+    });
+})
+
+const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
+const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
+
+editProfileButton.addEventListener('click', () => {
+    const { name, title } = userInfo.getUserInfo();
+    profilePopupName.value = name;
+    profilePopupTitle.value = title;
+    profileValidator.disableSubmitButton();
+    profilePopup.open()
+});
+
+profilePopup.setEventListeners();
+profileValidator.enableValidation();
+
+const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }, button, buttonText) => {
+    api.updateAvatar(link).then( (user) => {
+        userInfo.setAvatar(user.avatar)
+        popupWithAvatar.close();
+    }).catch((err) => {
+        console.log(err);
+    }).finally(() => {
+        button.textContent = buttonText;
+    });
+
+});
+
+const avatarLink = popupWithAvatar._form.querySelector('#popup__input-avatar-link');
+
+popupWithAvatar.setEventListeners();
+
+const avatarValidator = new FormValidator(validationConfig, 'form[name="changeAvatar"]');
+avatarValidator.enableValidation();
+
+
+profileAvatar.addEventListener('click', () => {
+    avatarLink.value = userInfo.getAvatar();
+    avatarValidator.disableSubmitButton();
+    popupWithAvatar.open();
+});
+
+const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
+
+popupWithImage.setEventListeners();
+placeValidator.enableValidation();
+
+
 api.getUser().then((user) => {
     userInfo.setUserInfo( { name: user.name, title: user.about })
     userInfo.setAvatar(user.avatar);
 
-    const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt, { name, title }, button, buttonText) => {
-        api.setUser(name, title).then( (res) => {
-            userInfo.setUserInfo( { name: res.name, title: res.about })
-            profilePopup.close();
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() => {
-            button.textContent = buttonText;
-        });
-    })
-
-    const profilePopupName = profilePopup._form.querySelector('#popup__input-profile-name');
-    const profilePopupTitle = profilePopup._form.querySelector('#popup__input-profile-title');
-
-    editProfileButton.addEventListener('click', () => {
-        const { name, title } = userInfo.getUserInfo();
-        profilePopupName.value = name;
-        profilePopupTitle.value = title;
-        profileValidator.disableSubmitButton();
-        profilePopup.open()
-    });
-
-    profilePopup.setEventListeners();
-    profileValidator.enableValidation();
-
-    const popupWithAvatar = new PopupWithForm('.popup_type_avatar', (evt, { link }, button, buttonText) => {
-        api.updateAvatar(link).then( (user) => {
-            userInfo.setAvatar(user.avatar)
-            popupWithAvatar.close();
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() => {
-            button.textContent = buttonText;
-        });
-
-    });
-
-    const avatarLink = popupWithAvatar._form.querySelector('#popup__input-avatar-link');
-
-    popupWithAvatar.setEventListeners();
-
-    const avatarValidator = new FormValidator(validationConfig, 'form[name="changeAvatar"]');
-    avatarValidator.enableValidation();
-
-
-    profileAvatar.addEventListener('click', () => {
-        avatarLink.value = userInfo.getAvatar();
-        avatarValidator.disableSubmitButton();
-        popupWithAvatar.open();
-    });
-
     api.getInitialCards().then((initialCards) => {
+
         const section = new Section({ items: initialCards, renderer: (item) => {
                 section.addItem(createCard(item, user));
             }
         }, elementsList)
 
         const placePopup = new PopupWithForm('.popup_type_add-place', (evt, { name, link }, button, buttonText) => {
-            api.addCard(name, link).then( (item ) => {
+            api.addCard(name, link).then( (item) => {
                 section.prependItem(createCard( item, user ));
                 placePopup.close();
             }).catch((err) => {
@@ -160,11 +167,6 @@ api.getUser().then((user) => {
             placeValidator.disableSubmitButton();
             placePopup.open()
         });
-
-        const placeValidator = new FormValidator(validationConfig, 'form[name="addPlace"]');
-
-        popupWithImage.setEventListeners();
-        placeValidator.enableValidation();
 
         section.render();
     }).catch((err) => {

@@ -72,7 +72,7 @@ export default class Card {
 
     _setEventListeners() {
         this._heart.addEventListener('click', this._heartClickHandler);
-        this._deleteButton.addEventListener('click', () => { this._handleDeleteButtonClick(this._id, this._card) });
+        this._deleteButton.addEventListener('click', () => { this._handleDeleteButtonClick(this) });
         this._picture.addEventListener('click', this._handleCardClick);
     }
 
