@@ -31,10 +31,9 @@ const popupWithImage = new PopupWithImage('.popup_type_image');
 const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', (card, evt) => {
     api.deleteCard(card._id).then( () => {
         card.deleteCard();
+        popupConfirmation.close();
     }).catch((err) => {
         console.log(err);
-    }).finally(() => {
-        popupConfirmation.close();
     });
 });
 

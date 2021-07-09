@@ -32,7 +32,7 @@ export default class Card {
         }
 
         this._likeCounter.textContent = this._likesLength;
-        this._deleteButton.hidden = !this._can_delete();
+        this._deleteButton.hidden = !this._canDelete();
 
         this._setEventListeners();
         return this._card;
@@ -80,7 +80,7 @@ export default class Card {
         this._handleHeartClick(evt.target, this)
     }
 
-    _can_delete() {
+    _canDelete() {
         return this._ownerId == this._currentUserId;
     }
  }
